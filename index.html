@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تحديات يومية</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+
+<div class="stars"></div>
+
+<header>
+  <div class="lantern">
+    <svg viewBox="0 0 100 160" width="80">
+      <path d="M50 5 L60 20 H40 Z" fill="#facc15"/>
+      <rect x="30" y="20" width="40" height="90" rx="10" fill="#f59e0b"/>
+      <rect x="35" y="30" width="30" height="60" rx="6" fill="#fde047"/>
+      <circle cx="50" cy="120" r="8" fill="#facc15"/>
+    </svg>
+  </div>
+
+  <h1>رمضان كريم</h1>
+
+  <div class="quote-box" id="quoteBox">
+    <p id="dailyQuote"></p>
+
+    <div class="share-buttons">
+      <button id="shareTextBtn">مشاركة كنص</button>
+      <button id="shareImageBtn">مشاركة كصورة</button>
+    </div>
+  </div>
+
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  <p id="progressText"></p>
+</header>
+
+<section class="calendar" id="calendar"></section>
+
+<!-- Challenge Modal -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h2>تحدي اليوم</h2>
+    <p id="challengeText"></p>
+    <button id="completeBtn">تم الإنجاز</button>
+    <button class="close-btn" onclick="closeModal()">إغلاق</button>
+  </div>
+</div>
+
+<!-- Congratulations Modal -->
+<div class="modal" id="congratsModal">
+  <div class="modal-content" id="congratsCard">
+    <h2>مبارك لك إتمام جميع التحديات</h2>
+    <p>نسأل الله أن يتقبل منك صالح الأعمال</p>
+
+    <div class="decor">
+      <img src="assets/congrats.png" width="140" alt="تهنئة">
+    </div>
+
+    <div class="share-buttons">
+      <button id="downloadCongrats">تحميل الصورة</button>
+      <button id="shareCongrats">مشاركة الصورة</button>
+    </div>
+
+    <button class="close-btn" onclick="closeCongrats()">إغلاق</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -28,6 +28,7 @@ const quotes = [
   "قال رسول الله ﷺ: من قال سبحان الله العظيم وبحمده غرست له نخلة في الجنة",
   "قال رسول الله ﷺ: ما جلس قوم مجلسا لم يذكروا الله فيه إلا كان عليهم ترة",
 ];
+
 const challenges = [
   "صل الضحى اليوم (4 ركعات)",
   "اقرأ صفحة قران بعد كل صلاة اليوم",
@@ -65,11 +66,11 @@ const dailyQuote = document.getElementById("dailyQuote");
 const shareTextBtn = document.getElementById("shareTextBtn");
 const shareImageBtn = document.getElementById("shareImageBtn");
 const quoteBox = document.getElementById("quoteBox");
+
 const progressBar = document.getElementById("progressBar");
 const progressText = document.getElementById("progressText");
 
 const congratsModal = document.getElementById("congratsModal");
-const congratsCard = document.getElementById("congratsCard");
 const downloadCongrats = document.getElementById("downloadCongrats");
 const shareCongrats = document.getElementById("shareCongrats");
 
@@ -88,8 +89,6 @@ async function captureHighQuality(element) {
     scale: 3,
     useCORS: true,
     backgroundColor: null,
-    windowWidth: element.scrollWidth,
-    windowHeight: element.scrollHeight,
   });
 
   element.classList.remove("share-mode");
@@ -99,38 +98,49 @@ async function captureHighQuality(element) {
 shareImageBtn.onclick = async () => {
   const canvas = await captureHighQuality(quoteBox);
 
-  canvas.toBlob(
-    (blob) => {
-      const file = new File([blob], "quote.png", { type: "image/png" });
-      navigator.share({ files: [file], text: dailyQuote.textContent });
-    },
-    "image/png",
-    1.0,
-  );
+  canvas.toBlob((blob) => {
+    const file = new File([blob], "quote.png", { type: "image/png" });
+
+    if (navigator.share) {
+      navigator.share({
+        files: [file],
+      });
+    } else {
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "quote.png";
+      link.click();
+    }
+  });
 };
 
 downloadCongrats.onclick = () => {
   const link = document.createElement("a");
   link.href = "assets/congrats.png";
-  link.download = "congratulations.png";
-  document.body.appendChild(link);
+  link.download = "congrats.png";
   link.click();
-  document.body.removeChild(link);
 };
 
 shareCongrats.onclick = async () => {
   const response = await fetch("assets/congrats.png");
   const blob = await response.blob();
-  const file = new File([blob], "congratulations.png", { type: "image/png" });
+  const file = new File([blob], "congrats.png", { type: "image/png" });
 
-  navigator.share({
-    files: [file],
-    text: "تم إكمال جميع التحديات",
-  });
+  if (navigator.share) {
+    navigator.share({
+      files: [file],
+    });
+  } else {
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "congrats.png";
+    link.click();
+  }
 };
 
 const today = new Date().toISOString().slice(0, 10);
 const completedTodayKey = "ramadan_completed_" + today;
+
 let nextDayToUnlock = parseInt(localStorage.getItem("ramadan_next_day") || "1");
 
 const calendar = document.getElementById("calendar");

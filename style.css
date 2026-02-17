@@ -5,59 +5,12 @@ body {
   color: white;
   text-align: center;
   min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* Stars */
-.stars {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-}
-
-.stars::before,
-.stars::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(1px 1px at 20px 30px, white, transparent),
-    radial-gradient(2px 2px at 100px 150px, white, transparent),
-    radial-gradient(1px 1px at 200px 80px, white, transparent),
-    radial-gradient(2px 2px at 300px 200px, white, transparent),
-    radial-gradient(1px 1px at 400px 100px, white, transparent);
-  background-size: 600px 600px;
-  animation: starsMove 60s linear infinite;
-  opacity: 0.5;
-}
-
-.stars::after {
-  animation-duration: 120s;
-  opacity: 0.3;
-}
-
-@keyframes starsMove {
-  from { background-position: 0 0; }
-  to { background-position: 0 -1000px; }
-}
-
-/* Lantern */
-.lantern {
-  margin: auto;
-  animation: swing 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 15px #fde047);
-}
-
-@keyframes swing {
-  0%,100% { transform: rotate(0deg); }
-  50% { transform: rotate(6deg); }
 }
 
 header {
   padding: 20px;
 }
 
-/* Quote card */
 .quote-box {
   background: rgba(255,255,255,0.12);
   border-radius: 20px;
@@ -66,39 +19,29 @@ header {
   width: 90%;
   max-width: 420px;
   backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba(250,204,21,0.3);
-}
-
-#quoteBox, #congratsCard {
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 
 #dailyQuote {
-  line-height: 1.8;
   font-size: 1.1rem;
+  line-height: 1.8;
 }
 
-/* Buttons */
 button {
-  padding: 10px;
+  padding: 12px;
   border-radius: 12px;
   border: none;
   cursor: pointer;
   background: #facc15;
   color: #020617;
   font-weight: bold;
-  transition: 0.3s;
   width: 100%;
 }
 
 button:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 12px #facc15;
+  box-shadow: 0 0 10px #facc15;
 }
 
 .close-btn {
-  margin-top: 10px;
   background: #ddd;
 }
 
@@ -141,12 +84,6 @@ button:hover {
   border-radius: 12px;
   padding: 15px 0;
   cursor: pointer;
-  transition: 0.2s;
-}
-
-.day:hover {
-  background: #facc15;
-  color: black;
 }
 
 .day.completed {
@@ -172,27 +109,26 @@ button:hover {
   max-width: 330px;
 }
 
-/* Congrats */
-#congratsModal .modal-content {
-  box-shadow: 0 0 30px gold;
-}
-
-.decor img {
-  max-width: 150px;
+.congrats-img {
   width: 100%;
+  max-width: 200px;
+  margin: 15px auto;
 }
 
-/* SHARE MODE FOR QUOTE ONLY */
+/* SHARE MODE (for PNG export) */
 .share-mode {
   background: radial-gradient(circle at top, #1e293b, #020617) !important;
-  box-shadow: none !important;
 }
 
 .share-mode .share-buttons {
   display: none !important;
 }
 
+.share-mode button {
+  display: none !important;
+}
+
 .share-mode #dailyQuote {
-  color: white !important;
+  color: white;
   font-size: 1.2rem;
 }

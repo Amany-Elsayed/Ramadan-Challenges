@@ -102,9 +102,7 @@ shareImageBtn.onclick = async () => {
     const file = new File([blob], "quote.png", { type: "image/png" });
 
     if (navigator.share) {
-      navigator.share({
-        files: [file],
-      });
+      navigator.share({ files: [file] });
     } else {
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
@@ -127,9 +125,7 @@ shareCongrats.onclick = async () => {
   const file = new File([blob], "congrats.png", { type: "image/png" });
 
   if (navigator.share) {
-    navigator.share({
-      files: [file],
-    });
+    navigator.share({ files: [file] });
   } else {
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
@@ -221,3 +217,41 @@ updateProgress();
 function closeCongrats() {
   congratsModal.style.display = "none";
 }
+
+const starCanvas = document.getElementById("stars");
+const ctx = starCanvas.getContext("2d");
+
+function resizeCanvas() {
+  starCanvas.width = window.innerWidth;
+  starCanvas.height = window.innerHeight;
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+const stars = Array.from({ length: 120 }, () => ({
+  x: Math.random() * starCanvas.width,
+  y: Math.random() * starCanvas.height,
+  r: Math.random() * 1.5 + 0.5,
+  speed: Math.random() * 0.3 + 0.1
+}));
+
+function animateStars() {
+  ctx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+  ctx.fillStyle = "white";
+
+  stars.forEach(s => {
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fill();
+    s.y += s.speed;
+    if (s.y > starCanvas.height) {
+      s.y = 0;
+      s.x = Math.random() * starCanvas.width;
+    }
+  });
+
+  requestAnimationFrame(animateStars);
+}
+
+animateStars();

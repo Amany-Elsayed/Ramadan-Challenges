@@ -69,9 +69,14 @@ header {
   box-shadow: 0 0 20px rgba(250,204,21,0.3);
 }
 
+#quoteBox, #congratsCard {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
 #dailyQuote {
   line-height: 1.8;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
 }
 
 /* Buttons */
@@ -175,4 +180,19 @@ button:hover {
 .decor img {
   max-width: 150px;
   width: 100%;
+}
+
+/* SHARE MODE FOR QUOTE ONLY */
+.share-mode {
+  background: radial-gradient(circle at top, #1e293b, #020617) !important;
+  box-shadow: none !important;
+}
+
+.share-mode .share-buttons {
+  display: none !important;
+}
+
+.share-mode #dailyQuote {
+  color: white !important;
+  font-size: 1.2rem;
 }

@@ -148,6 +148,7 @@ button:hover {
 }
 
 .close-btn {
+  margin-top: 10px;
   background: #ddd;
 }
 

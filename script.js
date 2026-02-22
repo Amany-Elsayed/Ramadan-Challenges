@@ -1,5 +1,5 @@
 const quotes = [
-  "قال رسول الله ﷺ: خَيرُكُم مَن تعلَّمَ القرآنَ وعلَّمَهُ",
+    "قال رسول الله ﷺ: خَيرُكُم مَن تعلَّمَ القرآنَ وعلَّمَهُ",
   "قال رسول الله ﷺ: استعن بالله ولا تعجز، وإن أصابك شيء فلا تقل لو اني فعلت كذا وكذا، ولكن قل قدر الله وما شاء فعل، فإن لو تفتح عمل الشيطان.",
   "قال رسول الله ﷺ: من لا يشكر الناس لا يشكر الله",
   "قال رسول الله ﷺ: المسلم من سلم المسلمون من لسانه ويده",
@@ -135,8 +135,16 @@ shareCongrats.onclick = async () => {
   }
 };
 
-const today = new Date().toISOString().slice(0, 10);
-const completedTodayKey = "ramadan_completed_" + today;
+const completedTodayKey = "ramadan_last_completed_time";
+const TWO_MONTHS = 60 * 24 * 60 * 60 * 1000;
+
+if (!localStorage.getItem("ramadan_start_time")) {
+  localStorage.setItem("ramadan_start_time", Date.now());
+}
+
+if (Date.now() - localStorage.getItem("ramadan_start_time") > TWO_MONTHS) {
+  localStorage.clear();
+}
 
 let nextDayToUnlock = parseInt(localStorage.getItem("ramadan_next_day") || "1");
 
@@ -161,7 +169,18 @@ for (let i = 1; i <= 30; i++) {
 }
 
 function openChallenge(dayNumber) {
-  const alreadyDoneToday = localStorage.getItem(completedTodayKey) === "true";
+  const lastTime = localStorage.getItem(completedTodayKey);
+
+  let alreadyDoneToday = false;
+  if (lastTime) {
+    const lastDate = new Date(parseInt(lastTime));
+    const now = new Date();
+
+    alreadyDoneToday =
+      lastDate.getFullYear() === now.getFullYear() &&
+      lastDate.getMonth() === now.getMonth() &&
+      lastDate.getDate() === now.getDate();
+  }
 
   if (dayNumber < nextDayToUnlock) {
     challengeText.textContent = "لقد أكملت هذا اليوم بالفعل";
@@ -188,7 +207,7 @@ function closeModal() {
 
 completeBtn.onclick = () => {
   localStorage.setItem("day" + selectedDay, "done");
-  localStorage.setItem(completedTodayKey, "true");
+  localStorage.setItem(completedTodayKey, Date.now());
 
   nextDayToUnlock = selectedDay + 1;
   localStorage.setItem("ramadan_next_day", nextDayToUnlock.toString());
@@ -256,3 +275,73 @@ function animateStars() {
 }
 
 animateStars();
+
+const fireworksCanvas = document.getElementById("fireworks");
+const fctx = fireworksCanvas.getContext("2d");
+
+function resizeFireworks() {
+  fireworksCanvas.width = window.innerWidth;
+  fireworksCanvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resizeFireworks);
+resizeFireworks();
+
+let fireworks = [];
+
+function createFirework() {
+  const x = Math.random() * fireworksCanvas.width;
+  const y = Math.random() * fireworksCanvas.height * 0.5;
+
+  const colors = ["#facc15", "#22c55e", "#60a5fa", "#f472b6", "#a78bfa"];
+
+  for (let i = 0; i < 40; i++) {
+    fireworks.push({
+      x,
+      y,
+      radius: 2,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      angle: Math.random() * Math.PI * 2,
+      speed: Math.random() * 3 + 1,
+      life: 60
+    });
+  }
+}
+
+function animateFireworks() {
+  if (congratsModal.style.display !== "flex") {
+    fctx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+    requestAnimationFrame(animateFireworks);
+    return;
+  }
+
+  /* fully transparent background */
+  fctx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+
+  fireworks.forEach((p, index) => {
+    const vx = Math.cos(p.angle) * p.speed;
+    const vy = Math.sin(p.angle) * p.speed;
+
+    p.x += vx;
+    p.y += vy;
+    p.life--;
+
+    fctx.beginPath();
+    fctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+    fctx.fillStyle = p.color;
+    fctx.fill();
+
+    if (p.life <= 0) {
+      fireworks.splice(index, 1);
+    }
+  });
+
+  requestAnimationFrame(animateFireworks);
+}
+
+setInterval(() => {
+  if (congratsModal.style.display === "flex") {
+    createFirework();
+  }
+}, 800);
+
+animateFireworks();

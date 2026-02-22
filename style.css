@@ -14,6 +14,16 @@ body {
   z-index: -1;
 }
 
+/* Fireworks canvas */
+#fireworks {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* Lantern */
 .lantern-container {
   position: absolute;
   top: 0;
@@ -60,56 +70,12 @@ body {
   transform: translateX(-50%);
 }
 
-.lantern-chain {
-  position: absolute;
-  top: -45px;
-  left: 50%;
-  width: 2px;
-  height: 45px;
-  background: #cbd5f5;
-  transform: translateX(-50%);
-}
-
 .lantern-light {
   position: absolute;
   inset: 18px;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.9),
-    rgba(255, 255, 255, 0.2)
-  );
+  background: radial-gradient(circle, rgba(255,255,255,0.9), rgba(255,255,255,0.2));
   border-radius: 50%;
   animation: glow 2s infinite alternate;
-}
-
-.lantern-panel {
-  position: absolute;
-  inset: 12px 8px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 10px;
-}
-
-@keyframes swing {
-  0% {
-    transform: translateX(-50%) rotate(-4deg);
-  }
-  50% {
-    transform: translateX(-50%) rotate(4deg);
-  }
-  100% {
-    transform: translateX(-50%) rotate(-4deg);
-  }
-}
-
-@keyframes glow {
-  from {
-    opacity: 0.7;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
-  }
-  to {
-    opacity: 1;
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.9);
-  }
 }
 
 header {
@@ -127,11 +93,6 @@ header {
   backdrop-filter: blur(10px);
 }
 
-#dailyQuote {
-  font-size: 1.1rem;
-  line-height: 1.8;
-}
-
 button {
   padding: 12px;
   border-radius: 12px;
@@ -141,10 +102,6 @@ button {
   color: #020617;
   font-weight: bold;
   width: 100%;
-}
-
-button:hover {
-  box-shadow: 0 0 10px #facc15;
 }
 
 .close-btn {
@@ -159,7 +116,6 @@ button:hover {
   margin-top: 15px;
 }
 
-/* Progress */
 .progress-container {
   width: 80%;
   height: 12px;
@@ -176,7 +132,6 @@ button:hover {
   transition: width 0.5s ease;
 }
 
-/* Calendar */
 .calendar {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
@@ -197,7 +152,6 @@ button:hover {
   background: linear-gradient(135deg, #22c55e, #16a34a);
 }
 
-/* Modal */
 .modal {
   position: fixed;
   inset: 0;
@@ -205,6 +159,7 @@ button:hover {
   display: none;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 }
 
 .modal-content {
@@ -214,6 +169,16 @@ button:hover {
   border-radius: 20px;
   width: 90%;
   max-width: 330px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 25px rgba(255,255,255,0.4);
+}
+
+.gift-text {
+  font-size: 0.95rem;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: #334155;
 }
 
 .congrats-img {
